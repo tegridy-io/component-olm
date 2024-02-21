@@ -1,0 +1,4 @@
+parameters:
+  olm:
+    =_metadata: {}
+    namespace: syn-olm
