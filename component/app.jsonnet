@@ -3,7 +3,7 @@ local inv = kap.inventory();
 local params = inv.parameters.olm;
 local argocd = import 'lib/argocd.libjsonnet';
 
-local app = argocd.App('olm', params.namespace.name);
+local app = argocd.App('olm', params.namespace.manager.name);
 
 {
   olm: app,
