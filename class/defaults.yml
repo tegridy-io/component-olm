@@ -1,4 +1,55 @@
 parameters:
   olm:
     =_metadata: {}
-    namespace: syn-olm
+
+    namespace:
+      manager:
+        annotations: {}
+        labels:
+          pod-security.kubernetes.io/enforce: baseline
+          pod-security.kubernetes.io/audit: restricted
+          pod-security.kubernetes.io/warn: restricted
+        name: syn-operator-lifecycle-manager
+      operators:
+        annotations: {}
+        labels:
+          pod-security.kubernetes.io/enforce: baseline
+        name: syn-operators
+
+    charts:
+      olm:
+        source: https://github.com/operator-framework/operator-lifecycle-manager
+        version: v0.26.0
+
+    replicas:
+      olm: 1
+      catalog: 1
+      package: 2
+
+    resources:
+      olm:
+        requests:
+          cpu: 10m
+          memory: 160Mi
+      catalog:
+        requests:
+          cpu: 10m
+          memory: 80Mi
+      package:
+        requests:
+          cpu: 10m
+          memory: 50Mi
+
+    helmValues:
+      namespace: ${olm:namespace:manager:name}
+      catalog_namespace: ${olm:namespace:manager:name}
+      operator_namespace: ${olm:namespace:operators:name}
+      olm:
+        replicaCount: ${olm:replicas:olm}
+        resources: ${olm:resources:olm}
+      catalog:
+        replicaCount: ${olm:replicas:catalog}
+        resources: ${olm:resources:catalog}
+      package:
+        replicaCount: ${olm:replicas:package}
+        resources: ${olm:resources:package}

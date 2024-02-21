@@ -2,18 +2,80 @@
 
 The parent key for all of the following parameters is `olm`.
 
+
 == `namespace`
 
 [horizontal]
 type:: string
-default:: `syn-olm`
+default::
++
+[source,yaml]
+----
+manager:
+  annotations: {}
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+    pod-security.kubernetes.io/audit: restricted
+    pod-security.kubernetes.io/warn: restricted
+  name: syn-operator-lifecycle-manager
+operators:
+  annotations: {}
+  labels:
+    pod-security.kubernetes.io/enforce: baseline
+  name: syn-operators
+----
 
 The namespace in which to deploy this component.
+
+
+== `replicas`
+
+[horizontal]
+type:: string
+default::
++
+[source,yaml]
+----
+olm: 1
+catalog: 1
+package: 2
+----
+
+Replica configuration of this component.
+
+
+== `resources`
+
+[horizontal]
+type:: string
+default::
++
+[source,yaml]
+----
+olm:
+  requests:
+   cpu: 10m
+   memory: 160Mi
+catalog:
+  requests:
+   cpu: 10m
+   memory: 80Mi
+package:
+  requests:
+   cpu: 10m
+   memory: 50Mi
+----
+
+Configure resource requests and limits.
 
 
 == Example
 
 [source,yaml]
 ----
-namespace: example-namespace
+namespace:
+  manager:
+    name: my-operator-lifecycle-manager
+  operators:
+    name: my-operators
 ----
