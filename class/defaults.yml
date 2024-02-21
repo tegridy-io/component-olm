@@ -40,6 +40,8 @@ parameters:
           cpu: 10m
           memory: 50Mi
 
+    sources: {}
+
     helmValues:
       namespace: ${olm:namespace:manager:name}
       catalog_namespace: ${olm:namespace:manager:name}
