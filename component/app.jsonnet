@@ -6,5 +6,13 @@ local argocd = import 'lib/argocd.libjsonnet';
 local app = argocd.App('olm', params.namespace.manager.name);
 
 {
-  olm: app,
+  olm: app {
+    spec+: {
+      syncPolicy+: {
+        syncOptions+: [
+          'ServerSideApply=true',
+        ],
+      },
+    },
+  },
 }
