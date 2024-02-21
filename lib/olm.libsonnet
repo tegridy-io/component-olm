@@ -62,7 +62,7 @@ local validateInstance(instance, checkTargets=false, checkSource='') =
 
 
 local subscription(name) =
-  kube._Object(apigroup + '/v1alpha1', 'Subscription', name) {
+  kube._Object(apigroup + '/v1', 'OperatorSource', name) {
     spec: {
       name: name,
     },

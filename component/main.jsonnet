@@ -20,8 +20,19 @@ local namespaceOperators = kube.Namespace(params.namespace.operators.name) {
   },
 };
 
+local catalogSources = [
+  kube._Object('operators.coreos.com/v1alpha1', 'CatalogSource', name) {
+    metadata+: {
+      namespace: params.namespace.manager.name,
+    },
+    spec: params.sources[name],
+  }
+  for name in std.objectFields(params.sources)
+];
+
 // Define outputs below
 {
   '00_namespace_manager': namespaceManager,
   '00_namespace_operators': namespaceOperators,
+  '00_catalog_sources': catalogSources,
 }

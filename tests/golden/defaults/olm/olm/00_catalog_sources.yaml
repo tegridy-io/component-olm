@@ -1,0 +1,16 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: CatalogSource
+metadata:
+  annotations: {}
+  labels:
+    name: redhat-marketplace
+  name: redhat-marketplace
+  namespace: syn-operator-lifecycle-manager
+spec:
+  displayName: Red Hat Marketplace
+  image: registry.access.redhat.com/redhat/redhat-marketplace-index:v4.14
+  publisher: Red Hat
+  sourceType: grpc
+  updateStrategy:
+    registryPoll:
+      interval: 1h

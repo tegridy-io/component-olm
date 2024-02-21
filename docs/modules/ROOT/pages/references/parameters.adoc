@@ -6,7 +6,7 @@ The parent key for all of the following parameters is `olm`.
 == `namespace`
 
 [horizontal]
-type:: string
+type:: dictionary
 default::
 +
 [source,yaml]
@@ -31,7 +31,7 @@ The namespace in which to deploy this component.
 == `replicas`
 
 [horizontal]
-type:: string
+type:: dictionary
 default::
 +
 [source,yaml]
@@ -47,7 +47,7 @@ Replica configuration of this component.
 == `resources`
 
 [horizontal]
-type:: string
+type:: dictionary
 default::
 +
 [source,yaml]
@@ -69,6 +69,15 @@ package:
 Configure resource requests and limits.
 
 
+== `sources`
+
+[horizontal]
+type:: dictionary
+default:: {}
+
+Add additional CatalogSources.
+
+
 == Example
 
 [source,yaml]
@@ -78,4 +87,14 @@ namespace:
     name: my-operator-lifecycle-manager
   operators:
     name: my-operators
+
+sources:
+  redhat-marketplace:
+    displayName: Red Hat Marketplace
+    image: registry.access.redhat.com/redhat/redhat-marketplace-index:v4.14
+    publisher: Red Hat
+    sourceType: grpc
+    updateStrategy:
+      registryPoll:
+        interval: 1h
 ----

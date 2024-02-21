@@ -1,3 +1,11 @@
-# Overwrite parameters here
-
-# parameters: {...}
+parameters:
+  olm:
+    sources:
+      redhat-marketplace:
+        displayName: Red Hat Marketplace
+        image: registry.access.redhat.com/redhat/redhat-marketplace-index:v4.14
+        publisher: Red Hat
+        sourceType: grpc
+        updateStrategy:
+          registryPoll:
+            interval: 1h
