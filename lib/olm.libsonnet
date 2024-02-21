@@ -107,8 +107,8 @@ local namespacedSubscription =
     name,
     channel,
     source,
-    sourceNamespace=params.defaultSourceNamespace,
-    installPlanApproval=params.defaultInstallPlanApproval
+    sourceNamespace=params.namespace.manager.name,
+    installPlanApproval='Automatic'
   )
     subscription(name) {
       metadata+: {
