@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: catalog-operator
+  name: catalog-operator
+  namespace: syn-operator-lifecycle-manager
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalog-operator
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: catalog-operator
+    spec:
+      containers:
+        - args:
+            - --namespace
+            - syn-operator-lifecycle-manager
+            - --configmapServerImage=quay.io/operator-framework/configmap-operator-registry:latest
+            - --util-image
+            - quay.io/operator-framework/olm:master
+            - --set-workload-user-id=true
+          command:
+            - /bin/catalog
+          image: quay.io/operator-framework/olm:master
+          imagePullPolicy: Always
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+              scheme: HTTP
+          name: catalog-operator
+          ports:
+            - containerPort: 8080
+              name: metrics
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+              scheme: HTTP
+          resources:
+            requests:
+              cpu: 10m
+              memory: 80Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          terminationMessagePolicy: FallbackToLogsOnError
+      nodeSelector:
+        kubernetes.io/os: linux
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      serviceAccountName: olm-operator-serviceaccount
